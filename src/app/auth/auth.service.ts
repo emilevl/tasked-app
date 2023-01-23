@@ -3,13 +3,11 @@ import { Injectable } from "@angular/core";
 import { ReplaySubject, Observable, from } from "rxjs";
 import { delayWhen, map } from "rxjs/operators";
 import { Storage } from "@ionic/storage";
+import { environment } from "src/environments/environment";
 
 import { AuthResponse } from "../models/auth-response";
-import { User } from "../models/user";
+import { UserResponse } from "../models/user-response";
 import { AuthRequest } from "../models/auth-request";
-
-const API_URL = "https://tasked.onrender.com";
-// const API_URL = "http://localhost:3000";
 
 /**
  * Authentication service for login/logout.
@@ -35,7 +33,7 @@ export class AuthService {
     return this.#auth$.pipe(map((auth) => Boolean(auth)));
   }
 
-  getUser$(): Observable<User> {
+  getUser$(): Observable<UserResponse> {
     return this.#auth$.pipe(map((auth) => auth?.user));
   }
 
@@ -43,8 +41,8 @@ export class AuthService {
     return this.#auth$.pipe(map((auth) => auth?.token));
   }
 
-  logIn$(authRequest: AuthRequest): Observable<User> {
-    const authUrl = `${API_URL}/auth/login`;
+  logIn$(authRequest: AuthRequest): Observable<UserResponse> {
+    const authUrl = `${environment.apiUrl}/auth/login`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       // Delay the observable stream while persisting the authentication response.
       delayWhen((auth) => this.saveAuth$(auth)),

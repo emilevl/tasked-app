@@ -5,5 +5,5 @@ export type TaskRequest = {
     description: string;
     startDate: Date;
     endDate ?: Date;
-    project: ProjectResponse;
+    project: string;
   };

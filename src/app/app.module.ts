@@ -9,6 +9,9 @@ import { IonicStorageModule } from "@ionic/storage-angular";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+import { ProjectsPage } from './projects/projects.page';
+import { DetailModalComponent } from './components/detail-modal/detail-modal.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
+    FormsModule
   ],
   providers: [
     { 

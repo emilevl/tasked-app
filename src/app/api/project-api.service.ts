@@ -22,4 +22,18 @@ export class ProjectApiService {
     //   data = dataReturned;
     // return {};
   }
+
+  getProject(projectId: string) : Observable<ProjectResponse> {
+    if (projectId) {
+      const url = `${environment.apiUrl}/projects/${projectId}`;
+      return this.http.get<ProjectResponse>(url);
+    }
+    return undefined;
+    
+    // let data = ApiService.httpRequest();
+    // this.http.get(url).subscribe((dataReturned) => {
+    //   // console.log(`projects loaded`, trips);
+    //   data = dataReturned;
+    // return {};
+  }
 }
