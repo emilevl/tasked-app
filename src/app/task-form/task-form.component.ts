@@ -43,11 +43,8 @@ export class TaskFormComponent implements OnInit {
       this.projectApiService.getProject(this.selectedProject).subscribe(
         (result) => {
           if(result ) {
-            console.log("MyTasks: ")
-            console.log(this.task)
             this.taskApiService.createTask(this.task).subscribe(
               (resultTask) => {
-                console.log('new task : ', resultTask);
                 // resultTask.date = new Date(resultTask.date)
                 //   .toLocaleDateString('fr')
                 //   .toString();

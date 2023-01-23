@@ -105,7 +105,7 @@ export class ProjectsPage implements OnInit {
       end = new Date(endDate);
     }
     const diffInMs = end.getTime() - start.getTime();
-    console.log(diffInMs);
+    // console.log(diffInMs);
     const diffInMinutes = Math.round(diffInMs / (1000 * 60));
     return diffInMinutes;
     
