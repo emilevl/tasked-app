@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()"><ion-icon name="close-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{project.name}}</ion-title>
+    
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-text>{{project.description}}</ion-text>
+  <!-- <ion-item> -->
+    <!-- <ion-label position="stacked">, project: {{project.name}}  </ion-label> -->
+    <!-- <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input> -->
+  <!-- </ion-item> -->
+  <ion-card *ngFor="let task of project.tasks">
+    <ion-card-header>
+      <ion-card-title>{{task.name}}</ion-card-title>
+      <ion-card-subtitle>{{calculateMinutes(task.startDate, task.endDate) }}</ion-card-subtitle>
+    </ion-card-header>
+    <!-- <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let task of project.tasks">
+          <ion-label>
+            {{task.name}}
+            <ion-text color="medium" class="task-minutes ion-justify-content-end"></ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content> -->
+  </ion-card>
+</ion-content>
