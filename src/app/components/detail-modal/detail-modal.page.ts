@@ -17,7 +17,7 @@ export class DetailModalPage implements OnInit {
   constructor(private modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.project);
+    // console.log(this.project);
     this.presentingElement = document.querySelector('.ion-page');
   }
 

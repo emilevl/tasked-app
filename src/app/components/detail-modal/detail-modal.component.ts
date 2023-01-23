@@ -21,12 +21,13 @@ export class DetailModalComponent {
 
   calculateMinutes(startDate: Date, endDate?: Date): Number {
     const start = new Date(startDate);
-    let end = new Date(endDate);
-    if (!end) {
-      end = new Date();
+    let end = new Date(Date.now())
+    if ((endDate instanceof Date) && endDate) {
+      end = new Date(endDate);
     }
     const diffInMs = end.getTime() - start.getTime();
-    const diffInMinutes = diffInMs / (1000 * 60);
+    console.log(diffInMs);
+    const diffInMinutes = Math.round(diffInMs / (1000 * 60));
     return diffInMinutes;
     
     // console.log(`startDate: ${startDate.getTime()}, endDate: ${typeof(endDate)}`)

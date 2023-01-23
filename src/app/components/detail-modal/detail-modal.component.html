@@ -19,7 +19,11 @@
   <ion-card *ngFor="let task of project.tasks">
     <ion-card-header>
       <ion-card-title>{{task.name}}</ion-card-title>
-      <ion-card-subtitle>{{calculateMinutes(task.startDate, task.endDate) }}</ion-card-subtitle>
+      <ion-card-subtitle>{{calculateMinutes(task.startDate, task.endDate) }} min.</ion-card-subtitle>
+      <ion-text>Description: {{task.description }}</ion-text>
+      <ion-text>Date début: {{task.startDate }}</ion-text>
+      <ion-text>Date de fin: {{task.endDate }}</ion-text>
+      <ion-text>Utilisateur: {{task.user.username }}</ion-text>
     </ion-card-header>
     <!-- <ion-card-content>
       <ion-list>
