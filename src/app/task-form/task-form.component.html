@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()"><ion-icon name="close-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Tâche</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+  <!-- <ion-toolbar>
+    <ion-text>Ajouter une tâche</ion-text>
+  </ion-toolbar> -->
+</ion-header>
+<ion-content class="ion-padding">
+  <form #newTaskForm="ngForm" (ngSubmit)="confirm(newTaskForm)">
+    <ion-input type="text" placeholder="Task name" [(ngModel)]="name" name="taskName" required #nameInput="ngModel"></ion-input>
+    <p *ngIf="nameInput.invalid && nameInput.touched" class="ng-invalid">
+      Name is required
+    </p>
+    <ion-input type="text" placeholder="Description" [(ngModel)]="description" name="taskDescription"></ion-input>
+    
+    <ion-select interface="action-sheet" placeholder="Projet" [(ngModel)]="selectedProject" name="selectedProject" required #projectInput="ngModel">
+      <ion-select-option *ngFor="let project of projects" [value]="project._id">{{project.name}}</ion-select-option>
+    </ion-select>
+    <p *ngIf="projectInput.invalid && nameInput.touched" class="ng-invalid">
+      project is required
+    </p>
+    <ion-label>Date de début
+      <ion-datetime-button datetime="startDate" >
+      </ion-datetime-button>
+    </ion-label>
+    <br/>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="startDate" [(ngModel)]="startDate" name="startDateInput"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+    <br/>
+
+    <ion-label>Date de fin
+      <ion-datetime-button datetime="endDate">
+      </ion-datetime-button>
+    </ion-label>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="endDate" [(ngModel)]="endDate" name="endDateInput"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+    <!-- <ion-datetime placeholder="Date de début" [(ngModel)]="startDate" name="taskStartDate"> -->
+      
+    <!-- </ion-datetime> -->
+    <!-- <ion-datetime placeholder="Date de fin" [(ngModel)]="endDate" name="taskEndDate">
+      <span slot="title">Date de fin</span>
+    </ion-datetime> -->
+    
+    <!-- <ion-input type="text" placeholder="Projet" [(ngModel)]="project" name="taskProject"></ion-input> -->
+    
+    <ion-button type="submit" [disabled]="newTaskForm.invalid">Create task</ion-button>
+  </form>
+  <!-- <ion-item>
+    <ion-label position="stacked">Your name</ion-label>
+    <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input>
+  </ion-item> -->
+</ion-content>
