@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ProjectsPageRoutingModule } from './projects-routing.module';
 
 import { ProjectsPage } from './projects.page';
+import { DetailModalComponent } from '../components/detail-modal/detail-modal.component';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,6 @@ import { ProjectsPage } from './projects.page';
     IonicModule,
     ProjectsPageRoutingModule
   ],
-  declarations: [ProjectsPage]
+  declarations: [ProjectsPage, DetailModalComponent, TaskFormComponent]
 })
 export class ProjectsPageModule {}

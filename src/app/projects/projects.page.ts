@@ -13,6 +13,8 @@ import { NgForOf } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { DetailModalPage } from '../components/detail-modal/detail-modal.page';
 import { Observable } from 'rxjs';
+import { DetailModalComponent } from '../components/detail-modal/detail-modal.component';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 
 @Component({
@@ -24,6 +26,7 @@ import { Observable } from 'rxjs';
 export class ProjectsPage implements OnInit {
     projects: Array<ProjectResponse>;
     tasks ?: TaskResponse;
+    message ?: string;
   constructor(
     // Inject the authentication provider.
     private auth: AuthService,
@@ -56,13 +59,27 @@ export class ProjectsPage implements OnInit {
     this.router.navigateByUrl("/login");
   }
 
-  async openModal(project: ProjectResponse) {
+  async openProject(project : ProjectResponse) {
     const modal = await this.modalCtrl.create({
-      component: DetailModalPage,
+      component: DetailModalComponent,
       componentProps: {project: project}
     });
     // console.log(project);
-    await modal.present();
+    modal.present();
+  }
+
+  async openTaskForm() {
+    const modal = await this.modalCtrl.create({
+      component: TaskFormComponent
+    });
+    // console.log(project);
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
   }
 
   getProjects() {
@@ -83,12 +100,13 @@ export class ProjectsPage implements OnInit {
 
   calculateMinutes(startDate: Date, endDate?: Date): Number {
     const start = new Date(startDate);
-    let end = new Date(endDate);
-    if (!end) {
-      end = new Date();
+    let end = new Date(Date.now())
+    if ((endDate instanceof Date) && endDate) {
+      end = new Date(endDate);
     }
     const diffInMs = end.getTime() - start.getTime();
-    const diffInMinutes = diffInMs / (1000 * 60);
+    console.log(diffInMs);
+    const diffInMinutes = Math.round(diffInMs / (1000 * 60));
     return diffInMinutes;
     
     // console.log(`startDate: ${startDate.getTime()}, endDate: ${typeof(endDate)}`)

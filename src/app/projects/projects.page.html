@@ -17,8 +17,7 @@
 
 <ion-content>
   <ion-searchbar show-clear-button="always" placeholder="Rechercher"></ion-searchbar>
-
-  <ion-card *ngFor="let project of projects" (click)="openModal(project)">
+  <ion-card *ngFor="let project of projects" (click)="openProject(project)">
     <ion-card-header>
       <ion-card-title>{{project.name}}</ion-card-title>
       <ion-card-subtitle>560 min</ion-card-subtitle>
@@ -36,7 +35,7 @@
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="getProjects()">
+    <ion-fab-button (click)="openTaskForm()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
     <!-- <ion-fab-list side="top">
