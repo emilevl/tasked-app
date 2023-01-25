@@ -12,11 +12,23 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-text>{{project.description}}</ion-text>
-  <!-- <ion-item> -->
-    <!-- <ion-label position="stacked">, project: {{project.name}}  </ion-label> -->
-    <!-- <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input> -->
-  <!-- </ion-item> -->
+  
+  
+  <ion-item>
+    
+    <!-- <ion-item> -->
+      <!-- <ion-label position="stacked">, project: {{project.name}}  </ion-label> -->
+      <!-- <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input> -->
+    <!-- </ion-item> -->
+    <ion-label slot="end">Projet actif: </ion-label>
+    <ion-toggle slot="end" [checked]="project.active" (ionChange)="toggleActivity($event)"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <ion-text>Description du projet: {{project.description}}</ion-text>
+  </ion-item>
+  <br>
+  <ion-title>Tâches</ion-title>
+  <br>
   <ion-list>
     <ion-item-sliding *ngFor="let task of project.tasks">
 
@@ -36,6 +48,23 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="danger" (click)="deleteProject()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
   <!-- <ion-card *ngFor="let task of project.tasks">
     <ion-card-header>
       <ion-card-title>{{task.name}}</ion-card-title>

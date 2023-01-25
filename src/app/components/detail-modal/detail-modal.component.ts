@@ -5,6 +5,7 @@ import { TaskResponse } from 'src/app/models/task-response'
 import { TaskApiService } from 'src/app/api/task-api.service';
 import { TaskFormComponent } from 'src/app/forms/task-form/task-form.component';
 import { AlertService } from 'src/app/config/alert.service';
+import { ProjectApiService } from 'src/app/api/project-api.service';
 
 @Component({
   selector: 'app-detail-modal',
@@ -18,7 +19,8 @@ export class DetailModalComponent {
   constructor (private modalCtrl: ModalController, 
     private taskApiService: TaskApiService,
     private alertController: AlertController,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private projectApiService: ProjectApiService) { }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -46,31 +48,10 @@ export class DetailModalComponent {
 
   async deleteTask(taskId: string) {
     let confirmation = false;
-    const alert = await this.alertController.create({
-      header: 'Alert!',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            confirmation = false;
-          },
-        },
-        {
-          text: 'OK',
-          role: 'confirm',
-          handler: () => {
-            confirmation = true;
-            this.showProgressBar = true;
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
+    confirmation = await this.alertService.showWarningAlert('Êtes-vous sûr de vouloir supprimer la tâche ?')
+    
     if (confirmation) {
+      this.showProgressBar = true;
     this.taskApiService.deleteTask(taskId).subscribe(
       (result) => {
         // console.log(result);
@@ -117,6 +98,34 @@ export class DetailModalComponent {
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
+  }
+
+  toggleActivity($event) {
+    console.log(this.project.active);
+    let active = this.project.active;
+    console.log("TODO: toggle project activity")
+  }
+
+  async deleteProject() {
+    let confirmation = false;
+    confirmation = await this.alertService.showWarningAlert('Êtes-vous sûr de vouloir supprimer la tâche ?')
+
+    if (confirmation) {
+      this.showProgressBar = true;
+      this.projectApiService.deleteProject(this.project._id).subscribe(
+        (result) => {
+          // console.log(result);
+          this.showProgressBar = false;
+          this.alertService.presentAlert("Succès !", "Projet supprimé", "Actualisez la page pour mettre à jour", ["Ok"]);
+        },
+        (err) => {
+          console.error(err);
+          this.showProgressBar = false;
+          // console.log(`Delete project failed: ${err.message}`);
+          this.alertService.presentAlert("Erreur", "Le projet n'a pas pu être supprimé", "Veuillez réessayer ultérieurement", ["Ok"])
+        }
+      );
+    }
   }
 
 }

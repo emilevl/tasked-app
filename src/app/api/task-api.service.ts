@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DeleteResponse } from '../models/delete-response';
 import { TaskEditRequest } from '../models/task-edit-request';
 import { TaskRequest } from '../models/task-request';
 import { TaskResponse } from '../models/task-response';
@@ -52,10 +53,10 @@ export class TaskApiService {
     // return {};
   }
 
-  deleteTask(taskId: string): Observable<Task>{
+  deleteTask(taskId: string): Observable<DeleteResponse>{
       const url = `${environment.apiUrl}/tasks/${taskId}`;
       // return this.http.delete(url);
-      return this.http.delete<Task>(url, this.httpHeader)
+      return this.http.delete<DeleteResponse>(url, this.httpHeader)
       // .pipe(tap(_ => console.log(`Task deleted: ${taskId}`)),
       // catchError(this.handleError<Task>('Delete task'))
       // );
