@@ -36,4 +36,15 @@ export class ProjectApiService {
     //   data = dataReturned;
     // return {};
   }
+
+  createProject(projectRequest: ProjectRequest) : Observable<ProjectRequest> {
+    const url = `${environment.apiUrl}/projects`;
+
+    return this.http.post<ProjectRequest>(url, projectRequest);
+    // let data = ApiService.httpRequest();
+    // this.http.get(url).subscribe((dataReturned) => {
+    //   // console.log(`projects loaded`, trips);
+    //   data = dataReturned;
+    // return {};
+  }
 }

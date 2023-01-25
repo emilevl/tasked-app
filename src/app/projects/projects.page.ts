@@ -14,7 +14,8 @@ import { ModalController } from '@ionic/angular';
 import { DetailModalPage } from '../components/detail-modal/detail-modal.page';
 import { Observable } from 'rxjs';
 import { DetailModalComponent } from '../components/detail-modal/detail-modal.component';
-import { TaskFormComponent } from '../task-form/task-form.component';
+import { TaskFormComponent } from '../forms/task-form/task-form.component';
+import { ProjectFormComponent } from '../forms/project-form/project-form/project-form.component';
 
 
 @Component({
@@ -80,6 +81,17 @@ export class ProjectsPage implements OnInit {
     if (role === 'confirm') {
       this.message = `Hello, ${data}!`;
     }
+  }
+
+  async openProjectForm() {
+    const modal = await this.modalCtrl.create({
+      component: ProjectFormComponent
+      
+    });
+    // console.log(project);
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
   }
 
   getProjects() {
