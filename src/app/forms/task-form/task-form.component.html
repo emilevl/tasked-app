@@ -19,58 +19,66 @@
   <ion-title *ngIf="!editTask">Créer une tâche</ion-title>
   <br><br>
   <form #newTaskForm="ngForm" (ngSubmit)="confirm(newTaskForm)">
-    <ion-input type="text" name="id" [value]="taskResponse.id" *ngIf="editTask" readonly disabled class="hidden"></ion-input>
-    <ion-label>Nom de la tâche
-      <ion-input type="text" placeholder="Task name" [(ngModel)]="name" name="taskName" required #nameInput="ngModel"></ion-input>
-    </ion-label>
-    <p *ngIf="nameInput.invalid && nameInput.touched" class="ng-invalid">
-      Name is required
-    </p>
-    <ion-label>Description
-      <ion-input type="text" placeholder="Description" [(ngModel)]="description" name="taskDescription"></ion-input>
-    </ion-label>
-    
-    <ion-label>Projet
-      <ion-select interface="action-sheet" placeholder="Projet" [(ngModel)]="selectedProject" name="selectedProject" required #projectInput="ngModel" [value]="selectedProject">
-        <ion-select-option *ngFor="let project of projects" [value]="project._id" :selected="selectedProject">{{project.name}}</ion-select-option>
-      </ion-select>
-    </ion-label>
-    <p *ngIf="projectInput.invalid && nameInput.touched" class="ng-invalid">
-      project is required
-    </p>
-    <ion-label>Date de début
-      <ion-datetime-button datetime="startDate" >
-      </ion-datetime-button>
-    </ion-label>
-    <br/>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime id="startDate" [(ngModel)]="startDate" name="startDateInput"></ion-datetime>
-      </ng-template>
-    </ion-modal>
-    <br/>
-
-    <ion-label>Date de fin
-      <ion-datetime-button datetime="endDate">
-      </ion-datetime-button>
-    </ion-label>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime id="endDate" [(ngModel)]="endDate" name="endDateInput"></ion-datetime>
-      </ng-template>
-    </ion-modal>
-
-    <!-- <ion-datetime placeholder="Date de début" [(ngModel)]="startDate" name="taskStartDate"> -->
+    <ion-list>
+      <ion-input type="text" name="id" [value]="taskResponse.id" *ngIf="editTask" readonly disabled class="hidden"></ion-input>
       
-    <!-- </ion-datetime> -->
-    <!-- <ion-datetime placeholder="Date de fin" [(ngModel)]="endDate" name="taskEndDate">
-      <span slot="title">Date de fin</span>
-    </ion-datetime> -->
-    
-    <!-- <ion-input type="text" placeholder="Projet" [(ngModel)]="project" name="taskProject"></ion-input> -->
-    
-    <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="!editTask">Créer la tâche task</ion-button>
-    <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="editTask">Modifier la tâche task</ion-button>
+      <ion-item>
+        <ion-label position="floating">Nom de la tâche</ion-label>
+        <ion-input type="text" placeholder="Task name" [(ngModel)]="name" name="taskName" required #nameInput="ngModel"></ion-input>
+        <ion-note *ngIf="nameInput.invalid && nameInput.touched" slot="error">
+          Name is required
+        </ion-note>
+      </ion-item> 
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input type="text" placeholder="Description" [(ngModel)]="description" name="taskDescription"></ion-input>
+      </ion-item>  
+        <ion-label>Projet</ion-label>
+          <ion-select interface="action-sheet" placeholder="Projet" [(ngModel)]="selectedProject" name="selectedProject" required #projectInput="ngModel" [value]="selectedProject">
+            <ion-select-option *ngFor="let project of projects" [value]="project._id" :selected="selectedProject">{{project.name}}</ion-select-option>
+          </ion-select>
+        <ion-note *ngIf="projectInput.invalid && nameInput.touched" slot="error">
+          project is required
+        </ion-note>
+
+      <ion-item>
+        <ion-label>Date de début</ion-label>
+        <ion-datetime-button datetime="startDate" >
+        </ion-datetime-button>
+        
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="startDate" [(ngModel)]="startDate" name="startDateInput"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+      <ion-item>
+        <ion-label>Date de fin</ion-label>
+        <ion-datetime-button datetime="endDate">
+        </ion-datetime-button>
+        
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="endDate" [(ngModel)]="endDate" name="endDateInput"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+
+      <!-- VERSION 2 AFFICHAGE DATE (BINDING IMPOSSIBLE)-->
+      <!-- <ion-item>
+        <ion-label>Date de début</ion-label>
+        <ion-input type="datetime-local" [(ngModel)]="startDate" name="startDateInput" id="startDate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Date de fin</ion-label>
+        <ion-input type="datetime-local" [(ngModel)]="endDate" name="endDateInput" id="endDate"></ion-input>
+      </ion-item> -->
+        
+        <!-- <ion-input type="text" placeholder="Projet" [(ngModel)]="project" name="taskProject"></ion-input> -->
+        <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="!editTask">Créer la tâche</ion-button>
+        <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="editTask">Modifier la tâche</ion-button>
+    </ion-list>  
   </form>
   <!-- <ion-item>
     <ion-label position="stacked">Your name</ion-label>

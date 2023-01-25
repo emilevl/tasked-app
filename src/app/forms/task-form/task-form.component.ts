@@ -34,7 +34,7 @@ export class TaskFormComponent implements OnInit {
   constructor(private modalCtrl: ModalController, 
     private projectApiService: ProjectApiService,
     private taskApiService: TaskApiService,
-    private alertService: AlertService) { }
+    private alertService: AlertService) {}
 
   ngOnInit() {
     this.getProjects();
@@ -46,6 +46,7 @@ export class TaskFormComponent implements OnInit {
       this.endDate = this.taskResponse.endDate;
     } 
   }
+
 
   ionViewDidEnter() {
 
@@ -143,6 +144,10 @@ export class TaskFormComponent implements OnInit {
         console.warn('Could not access projects', err)
       }
     )
+  }
+
+  dateToString(date:Date): string {
+    return new Date(date).toISOString().slice(0, 16);
   }
 
 }
