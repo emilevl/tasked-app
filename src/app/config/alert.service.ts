@@ -19,4 +19,33 @@ export class AlertService {
 
     await alert.present();
   }
+
+  async showWarningAlert(message) {
+    let confirmation: boolean;
+    const alert = await this.alertController.create({
+      header: 'Attention !',
+      message,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            confirmation = false;
+          },
+        },
+        {
+          text: 'Confirmer',
+          role: 'confirm',
+          handler: () => {
+            confirmation = true;
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    return confirmation;
+  }
 }
