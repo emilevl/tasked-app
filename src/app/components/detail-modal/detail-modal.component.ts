@@ -3,6 +3,8 @@ import { ProjectResponse } from 'src/app/models/project-response';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TaskResponse } from 'src/app/models/task-response'
 import { TaskApiService } from 'src/app/api/task-api.service';
+import { TaskFormComponent } from 'src/app/forms/task-form/task-form.component';
+import { AlertService } from 'src/app/config/alert.service';
 
 @Component({
   selector: 'app-detail-modal',
@@ -11,9 +13,12 @@ import { TaskApiService } from 'src/app/api/task-api.service';
 })
 export class DetailModalComponent {
   @Input() project ?: ProjectResponse;
+  public showProgressBar = false;
+
   constructor (private modalCtrl: ModalController, 
     private taskApiService: TaskApiService,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private alertService: AlertService) { }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -56,6 +61,7 @@ export class DetailModalComponent {
           role: 'confirm',
           handler: () => {
             confirmation = true;
+            this.showProgressBar = true;
           },
         },
       ],
@@ -65,16 +71,52 @@ export class DetailModalComponent {
 
     const { role } = await alert.onDidDismiss();
     if (confirmation) {
-    console.log(this.taskApiService.deleteTask(taskId));
+    this.taskApiService.deleteTask(taskId).subscribe(
+      (result) => {
+        // console.log(result);
+        this.showProgressBar = false;
+        this.alertService.presentAlert("Succès !", "Tâche supprimée", "Actualisez la page pour mettre à jour", ["Ok"]);
+      },
+      (err) => {
+        console.error(err);
+        this.showProgressBar = false;
+        console.log(`Delete task failed: ${err.message}`);
+        this.alertService.presentAlert("Erreur", "La tâche n'a pas pu être supprimée", "Veuillez réessayer ultérieurement", ["Ok"])
+      }
+    );
     // console.log(taskId);
     }
     
   }
 
+  // async presentAlert(header, subHeader, message, buttons) {
+  //   const alert = await this.alertController.create({
+  //     header,
+  //     subHeader,
+  //     message,
+  //     buttons,
+  //   });
+
+  //   await alert.present();
+  // }
+
   editTask(taskId: string, task: TaskResponse) {
+    this.openTaskForm(task)
     console.log("edit: " + taskId);
-    console.log(task);
+    // console.log(task);
   }
   ngOnInit() {}
+
+  async openTaskForm(task: TaskResponse) {
+    const editTask = true;
+    const modal = await this.modalCtrl.create({
+      component: TaskFormComponent,
+      componentProps: {taskResponse: task, editTask}
+    });
+    // console.log(project);
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+  }
 
 }

@@ -3,7 +3,8 @@
     <ion-buttons slot="start">
       <ion-button color="medium" (click)="cancel()"><ion-icon name="close-outline"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>Tâche</ion-title>
+    <ion-title *ngIf="!editTask">Tâche</ion-title>
+    <ion-title *ngIf="editTask">{{taskResponse.name}}</ion-title>
     <!-- <ion-buttons slot="end">
       <ion-button (click)="confirm()">Confirm</ion-button>
     </ion-buttons> -->
@@ -11,9 +12,14 @@
   <!-- <ion-toolbar>
     <ion-text>Ajouter une tâche</ion-text>
   </ion-toolbar> -->
+  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
 </ion-header>
 <ion-content class="ion-padding">
+  <ion-title *ngIf="editTask">Modifier une tâche</ion-title>
+  <ion-title *ngIf="!editTask">Créer une tâche</ion-title>
+  <br><br>
   <form #newTaskForm="ngForm" (ngSubmit)="confirm(newTaskForm)">
+    <ion-input type="text" name="id" [value]="taskResponse.id" *ngIf="editTask" readonly disabled class="hidden"></ion-input>
     <ion-label>Nom de la tâche
       <ion-input type="text" placeholder="Task name" [(ngModel)]="name" name="taskName" required #nameInput="ngModel"></ion-input>
     </ion-label>
@@ -25,8 +31,8 @@
     </ion-label>
     
     <ion-label>Projet
-      <ion-select interface="action-sheet" placeholder="Projet" [(ngModel)]="selectedProject" name="selectedProject" required #projectInput="ngModel">
-        <ion-select-option *ngFor="let project of projects" [value]="project._id">{{project.name}}</ion-select-option>
+      <ion-select interface="action-sheet" placeholder="Projet" [(ngModel)]="selectedProject" name="selectedProject" required #projectInput="ngModel" [value]="selectedProject">
+        <ion-select-option *ngFor="let project of projects" [value]="project._id" :selected="selectedProject">{{project.name}}</ion-select-option>
       </ion-select>
     </ion-label>
     <p *ngIf="projectInput.invalid && nameInput.touched" class="ng-invalid">
@@ -63,7 +69,8 @@
     
     <!-- <ion-input type="text" placeholder="Projet" [(ngModel)]="project" name="taskProject"></ion-input> -->
     
-    <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid">Create task</ion-button>
+    <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="!editTask">Créer la tâche task</ion-button>
+    <ion-button expand="block" id="submitTaskForm" type="submit" [disabled]="newTaskForm.invalid" *ngIf="editTask">Modifier la tâche task</ion-button>
   </form>
   <!-- <ion-item>
     <ion-label position="stacked">Your name</ion-label>

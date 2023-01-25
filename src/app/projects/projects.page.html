@@ -20,7 +20,7 @@
   <ion-card *ngFor="let project of projects" (click)="openProject(project)">
     <ion-card-header>
       <ion-card-title>{{project.name}}</ion-card-title>
-      <ion-card-subtitle>560 min</ion-card-subtitle>
+      <ion-card-subtitle>42 min</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
@@ -35,20 +35,22 @@
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openTaskForm()">
+    <ion-fab-button>
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
-    <!-- <ion-fab-list side="top">
+    <ion-fab-list side="top">
       <ion-fab-button>
-        <ion-icon name="document"></ion-icon>
+        <ion-icon name="file-tray-outline" (click)="openProjectForm()"></ion-icon>
       </ion-fab-button>
       <ion-fab-button>
-        <ion-icon name="color-palette"></ion-icon>
+        <ion-icon name="document" (click)="openTaskForm()"  aria-label="Tâche"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button>
-        <ion-icon name="globe"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list> -->
+    </ion-fab-list>
   </ion-fab>
+  <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openTaskForm()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button> -->
+  <!-- </ion-fab> -->
 
 </ion-content>

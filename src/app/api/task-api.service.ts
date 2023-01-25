@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TaskEditRequest } from '../models/task-edit-request';
 import { TaskRequest } from '../models/task-request';
 import { TaskResponse } from '../models/task-response';
 
@@ -11,6 +12,10 @@ import { TaskResponse } from '../models/task-response';
 export class TaskApiService {
 
   constructor(public http: HttpClient) { }
+
+  httpHeader = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   createTask(data: TaskRequest) : Observable<TaskRequest> {
     const url = `${environment.apiUrl}/tasks`;
@@ -47,21 +52,39 @@ export class TaskApiService {
     // return {};
   }
 
-  deleteTask(taskId: string) {
-    if(taskId) {
-      this.getTask(taskId).subscribe(
-        (result) => {
-          const url = `${environment.apiUrl}/tasks/${taskId}`;
-          return this.http.delete<Task>(url);
-          // for (const project in result) {
-          //   console.log(typeof(project))
-          // }
-        },
-        (err) => {
-          console.warn('Could not access task', err)
-        }
-      )
-      }
+  deleteTask(taskId: string): Observable<Task>{
+      const url = `${environment.apiUrl}/tasks/${taskId}`;
+      // return this.http.delete(url);
+      return this.http.delete<Task>(url, this.httpHeader)
+      // .pipe(tap(_ => console.log(`Task deleted: ${taskId}`)),
+      // catchError(this.handleError<Task>('Delete task'))
+      // );
+      // this.getTask(taskId).subscribe(
+      //   (result) => {
+      //     console.log(taskId);
+          
+      //     // for (const project in result) {
+      //     //   console.log(typeof(project))
+      //     // }
+      //   },
+      //   (err) => {
+      //     console.warn('Could not access task', err)
+      //   }
+      // )
+    }
+
+    editTask(task: TaskEditRequest): Observable<TaskResponse>{
+      const url = `${environment.apiUrl}/tasks/${task.id}`;
+      // return this.http.delete(url);
+      return this.http.patch<TaskResponse>(url, task)
+    }
+
+    private handleError<T>(operation = 'operation', result?: T) {
+      return (error: any): Observable<T> => {
+        console.error(error);
+        console.log(`${operation} failed: ${error.message}`);
+        return of(result as T);
+      };
     }
     
 }
