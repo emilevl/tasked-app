@@ -6,21 +6,29 @@ import { TaskApiService } from 'src/app/api/task-api.service';
 import { TaskFormComponent } from 'src/app/forms/task-form/task-form.component';
 import { AlertService } from 'src/app/config/alert.service';
 import { ProjectApiService } from 'src/app/api/project-api.service';
+import { ProjectFormComponent } from 'src/app/forms/project-form/project-form/project-form.component';
+import { PictureService } from 'src/app/picture/picture.service';
+import { ImageResponse } from 'src/app/models/image-response';
+import { PictureFormComponent } from 'src/app/picture/picture-form/picture-form.component';
+
 
 @Component({
   selector: 'app-detail-modal',
   templateUrl: './detail-modal.component.html',
   styleUrls: ['./detail-modal.component.scss'],
 })
+
 export class DetailModalComponent {
-  @Input() project ?: ProjectResponse;
+  @Input() project : ProjectResponse;
   public showProgressBar = false;
+  // public pictureUrl = "https://qimg.onrender.com/api/images/5aa455ee-3672-4008-88cd-b7f37d9a6394.png";
 
   constructor (private modalCtrl: ModalController, 
     private taskApiService: TaskApiService,
     private alertController: AlertController,
     private alertService: AlertService,
-    private projectApiService: ProjectApiService) { }
+    private projectApiService: ProjectApiService,
+    private pictureService: PictureService) { }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -102,7 +110,23 @@ export class DetailModalComponent {
 
   toggleActivity($event) {
     console.log(this.project.active);
-    let active = this.project.active;
+    this.projectApiService.toggleProjectActivity(this.project._id).subscribe(
+      (result) => {
+        // console.log(result);
+        if (result.active) {
+          this.alertService.presentToast("bottom", "Projet activé", "success");
+        }else {
+          this.alertService.presentToast("bottom", "Projet désactivé", "medium");
+        }
+        this.project.active = result.active;
+        console.log(result)
+      },
+      (err) => {
+        console.error(err);
+        // console.log(`Delete project failed: ${err.message}`);
+        this.alertService.presentToast("bottom", "Une erreur est survenue, veuillez réessayer plus tard", "danger");
+      }
+    );
     console.log("TODO: toggle project activity")
   }
 
@@ -128,4 +152,27 @@ export class DetailModalComponent {
     }
   }
 
+  async editProject() {
+    // TODO: Terminer ça 
+    const editProject = true;
+    const modal = await this.modalCtrl.create({
+      component: ProjectFormComponent,
+      componentProps: {project: this.project, editProject}
+    });
+    modal.present();
+  }
+
+
+  async openImageForm(image ?: ImageResponse) {
+    let editImage = false;
+    if (image){
+      editImage = true;
+    }
+    const modal = await this.modalCtrl.create({
+      component: PictureFormComponent,
+      componentProps: {imageResponse: image, editImage, projectId: this.project._id}
+    });
+    // console.log(project);
+    modal.present();
+  }
 }

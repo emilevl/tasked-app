@@ -21,7 +21,7 @@
       <!-- <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input> -->
     <!-- </ion-item> -->
     <ion-label slot="end">Projet actif: </ion-label>
-    <ion-toggle slot="end" [checked]="project.active" (ionChange)="toggleActivity($event)"></ion-toggle>
+    <ion-toggle slot="end" [checked]="project.active" (click)="toggleActivity($event)"></ion-toggle>
   </ion-item>
   <ion-item>
     <ion-text>Description du projet: {{project.description}}</ion-text>
@@ -58,13 +58,36 @@
         <ion-icon name="trash-outline"></ion-icon>
       </ion-fab-button>
       <ion-fab-button>
-        <ion-icon name="create-outline"></ion-icon>
+        <ion-icon name="create-outline" (click)="editProject()"></ion-icon>
       </ion-fab-button>
       <ion-fab-button>
-        <ion-icon name="camera-outline"></ion-icon>
+        <ion-icon name="camera-outline" (click)="openImageForm()"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
+  
+  <br><br>
+  <ion-title>Images du projet</ion-title>
+  <!-- <ion-button >Take picture</ion-button> -->
+  <ion-item>
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Images du projet</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <app-slider-picture [projectId]="project._id"></app-slider-picture>
+        </div>
+        <!-- <div class="ion-padding" slot="content">
+          First Content
+        </div>
+        <div class="ion-padding" slot="content">
+          First Content
+        </div> -->
+      </ion-accordion>
+    </ion-accordion-group>
+  </ion-item>
+  
   <!-- <ion-card *ngFor="let task of project.tasks">
     <ion-card-header>
       <ion-card-title>{{task.name}}</ion-card-title>

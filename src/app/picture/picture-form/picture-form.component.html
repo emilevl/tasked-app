@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()"><ion-icon name="close-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="!editImage">Image</ion-title>
+    <ion-title *ngIf="editImage">{{imageResponse.name}}</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+  <!-- <ion-toolbar>
+    <ion-text>Ajouter une tâche</ion-text>
+  </ion-toolbar> -->
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-title *ngIf="editImage">Modifier une image</ion-title>
+  <ion-title *ngIf="!editImage">Ajouter une image</ion-title>
+  <br><br>
+  <form #newImageForm="ngForm" (ngSubmit)="confirm(newImageForm)">
+    <ion-list>
+      <ion-input type="text" name="_id" [value]="imageResponse._id" *ngIf="editImage" readonly disabled class="hidden"></ion-input>
+      <ion-item>
+        <ion-label position="floating">Nom de l'image</ion-label>
+          <ion-input type="text" placeholder="Image name" [(ngModel)]="name" name="imageName" required #nameInput="ngModel"></ion-input>
+        <ion-note *ngIf="nameInput.invalid && nameInput.touched" slot="error">
+          Name is required
+        </ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+          <ion-input type="text" placeholder="Description" [(ngModel)]="description" name="imageDescription" required #imageInput="ngModel"></ion-input>
+        <ion-note *ngIf="imageInput.invalid && imageInput.touched" slot="error">
+          Description is required
+        </ion-note>
+      </ion-item>
+      <ion-item class="hidden">
+          <ion-input type="text" name="imageImg" [(ngModel)]="img" [value]="img" class="hidden" required #imgInput="ngModel"></ion-input>
+        </ion-item>
+      <ion-item>
+        <ion-label>Image</ion-label>
+        <!-- <ion-input type="text" placeholder="Image" [(ngModel)]="img" name="imageImg" required #imgInput="ngModel"></ion-input> -->
+        
+        
+        <ion-button expand="block" [color]="colorBtnImage" (click)="takePicture()">
+          Ajouter une image
+          <ion-icon name="checkmark-circle-outline" slot="end" *ngIf="imgOk"></ion-icon>
+          <ion-icon slot="end" name="camera-outline" *ngIf="!imgOk"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item class="hidden">
+        <ion-input type="text" name="project" [value]="projectId" class="hidden"></ion-input>
+      </ion-item>
+      <ion-button expand="block" id="submitImageForm" type="submit" [disabled]="newImageForm.invalid" *ngIf="!editImage">Créer l'image</ion-button>
+      <ion-button expand="block" id="submitImageForm" type="submit" [disabled]="newImageForm.invalid" *ngIf="editImage">Modifier l'image</ion-button>
+    </ion-list>
+    <ion-text *ngIf="imgInput.invalid" color="error" class="error">
+      Image is required
+    </ion-text>
+  </form>
+  <!-- <ion-item>
+    <ion-label position="stacked">Your name</ion-label>
+    <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input>
+  </ion-item> -->
+</ion-content>

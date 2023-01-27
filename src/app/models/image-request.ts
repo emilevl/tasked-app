@@ -1,8 +1,6 @@
-import { Task } from "./task-response";
-
-export type NfcRequest = {
-    name: string;
-    description: string;
-    image: string;
-    task: Task;
+export type ImageRequest = {
+    name : string;
+    description : string;
+    img : string;
+    project: string;
   };
