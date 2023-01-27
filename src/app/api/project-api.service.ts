@@ -58,4 +58,9 @@ export class ProjectApiService {
     // return this.http.delete(url);
     return this.http.delete<DeleteResponse>(url, this.httpHeader)
   }
+
+  toggleProjectActivity(projectId: string): Observable<ProjectResponse> {
+    const url = `${environment.apiUrl}/projects/${projectId}/toggleactivity`;
+    return this.http.post<ProjectResponse>(url, projectId);
+  }
 }

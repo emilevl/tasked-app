@@ -23,6 +23,7 @@ export class LoginPage {
    * (probably because the name or password is incorrect).
    */
   loginError: boolean;
+  loading = false;
 
   constructor(private auth: AuthService, private router: Router) {
     this.authRequest = {
@@ -35,6 +36,7 @@ export class LoginPage {
    * Called when the login form is submitted.
    */
   onSubmit(form: NgForm) {
+    
     // Do not do anything if the form is invalid.
     if (form.invalid) {
       return;
@@ -42,13 +44,14 @@ export class LoginPage {
 
     // Hide any previous login error.
     this.loginError = false;
-
+    this.loading = true;
     // Perform the authentication request to the API.
     this.auth.logIn$(this.authRequest).subscribe({
       next: () => this.router.navigateByUrl("/"),
       error: (err) => {
         this.loginError = true;
         console.warn(`Authentication failed: ${err.message}`);
+        this.loading = false;
       },
     });
   }
