@@ -127,7 +127,6 @@ export class DetailModalComponent {
         this.alertService.presentToast("bottom", "Une erreur est survenue, veuillez réessayer plus tard", "danger");
       }
     );
-    console.log("TODO: toggle project activity")
   }
 
   async deleteProject() {
@@ -157,7 +156,7 @@ export class DetailModalComponent {
     const editProject = true;
     const modal = await this.modalCtrl.create({
       component: ProjectFormComponent,
-      componentProps: {project: this.project, editProject}
+      componentProps: {projectResponse: this.project, editProject}
     });
     modal.present();
   }

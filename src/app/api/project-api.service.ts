@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
 import { DeleteResponse } from '../models/delete-response';
+import { ProjectEditRequest } from '../models/project-edit-request';
 import { ProjectRequest } from '../models/project-request';
 import { ProjectResponse } from '../models/project-response';
 import { ApiService } from './api.service';
@@ -62,5 +63,11 @@ export class ProjectApiService {
   toggleProjectActivity(projectId: string): Observable<ProjectResponse> {
     const url = `${environment.apiUrl}/projects/${projectId}/toggleactivity`;
     return this.http.post<ProjectResponse>(url, projectId);
+  }
+
+  editProject(project: ProjectEditRequest): Observable<ProjectResponse>{
+    const url = `${environment.apiUrl}/projects/${project.id}`;
+    // return this.http.delete(url);
+    return this.http.patch<ProjectResponse>(url, project)
   }
 }

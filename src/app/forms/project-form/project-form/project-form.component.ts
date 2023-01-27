@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ProjectApiService } from 'src/app/api/project-api.service';
 import { AlertService } from 'src/app/config/alert.service';
 import { ImageResponse } from 'src/app/models/image-response';
+import { ProjectEditRequest } from 'src/app/models/project-edit-request';
 import { ProjectRequest } from 'src/app/models/project-request';
 import { ProjectResponse } from 'src/app/models/project-response';
 import { TaskEditRequest } from 'src/app/models/task-edit-request';
@@ -26,6 +27,7 @@ export class ProjectFormComponent implements OnInit {
   projectResponse: ProjectResponse;
   projectRequest: ProjectRequest;
   taskEditRequest: TaskEditRequest;
+  projectEditRequest: ProjectEditRequest;
   author: UserResponse;
   editProject = false;
 
@@ -40,6 +42,7 @@ export class ProjectFormComponent implements OnInit {
       this.name = this.projectResponse.name;
       this.description = this.projectResponse.description;
       this.company = this.projectResponse.company
+      this.active = this.projectResponse.active;
     } 
   }
 
@@ -51,7 +54,28 @@ export class ProjectFormComponent implements OnInit {
     if(form.valid){
       this.showProgressBar = true;
       if (this.editProject) {
+        this.projectEditRequest = {
+          id: this.projectResponse._id,
+          name: this.name,
+          description: this.description,
+          active: this.active,
+          company: this.company
+        }
 
+        this.projectApiService.editProject(this.projectEditRequest).subscribe(
+          (resultProject) => {
+            this.alertService.presentToast("bottom", `Le projet "${resultProject.name}" a bien été modifié !`, "success")
+            // console.log('project edited !');
+            console.log(resultProject)
+            this.showProgressBar = false;
+            return this.modalCtrl.dismiss(null, 'cancel');
+          },
+          (err) => {
+            console.warn('Could not edit project', err);
+            this.alertService.presentAlert("Erreur","", `Le projet n'a pas pu être modifié. Veuillez réessayer ultérieurement`, ["Ok"])
+            this.showProgressBar = false;
+          }
+        );
       }else {
         this.projectRequest = {
           name: this.name,
@@ -59,8 +83,6 @@ export class ProjectFormComponent implements OnInit {
           active: this.active,
           company: this.company
         }
-        // console.log(this.projectRequest);
-
         this.projectApiService.createProject(this.projectRequest).subscribe(
           (resultProject) => {
             this.alertService.presentAlert("Succès","", `Le projet ${resultProject.name} a été créé !`, ["Ok"])
@@ -75,6 +97,7 @@ export class ProjectFormComponent implements OnInit {
             this.showProgressBar = false;
           }
         );
+        // console.log(this.projectRequest);
       }
     }
   }
