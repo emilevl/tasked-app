@@ -12,14 +12,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  
-  
   <ion-item>
-    
-    <!-- <ion-item> -->
-      <!-- <ion-label position="stacked">, project: {{project.name}}  </ion-label> -->
-      <!-- <ion-input [(ngModel)]="name" placeholder="Your name"></ion-input> -->
-    <!-- </ion-item> -->
+    <ion-label>{{getHoursMinutesFromMin(calculateTime(project.tasks))}}</ion-label>
     <ion-label slot="end">Projet actif: </ion-label>
     <ion-toggle slot="end" [checked]="project.active" (click)="toggleActivity($event)"></ion-toggle>
   </ion-item>
@@ -30,6 +24,7 @@
   <ion-title>Tâches</ion-title>
   <br>
   <ion-list>
+    <ion-item *ngIf="project.tasks.length == 0">Aucune tâche pour le moment</ion-item>
     <ion-item-sliding *ngFor="let task of project.tasks">
 
       <ion-item-options side="start">
@@ -37,9 +32,10 @@
       </ion-item-options>
   
       <ion-item>
+        <ion-label slot="end">{{getHoursMinutesFromMin(calculateMinutes(task))}}</ion-label>
         <ion-label>
           <h3>{{task.name}}</h3>
-          <p>{{task.description}} -- {{task.user.username}}</p>
+          <p>{{task.description}}</p>
         </ion-label>
       </ion-item>
 

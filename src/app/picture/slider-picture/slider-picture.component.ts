@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
 import { ImageApiService } from 'src/app/api/image-api.service';
 import { ImageResponse } from 'src/app/models/image-response';
-import { PictureFormComponent } from '../picture-form/picture-form.component';
+import { PictureFormComponent } from '../../forms/picture-form/picture-form.component';
 
 @Component({
   selector: 'app-slider-picture',

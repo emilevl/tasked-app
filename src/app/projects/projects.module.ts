@@ -7,11 +7,11 @@ import { IonicModule } from '@ionic/angular';
 import { ProjectsPageRoutingModule } from './projects-routing.module';
 
 import { ProjectsPage } from './projects.page';
-import { DetailModalComponent } from '../components/detail-modal/detail-modal.component';
 import { TaskFormComponent } from '../forms/task-form/task-form.component';
 import { ProjectFormComponent } from '../forms/project-form/project-form/project-form.component';
 import { SliderPictureComponent } from '../picture/slider-picture/slider-picture.component';
-import { PictureFormComponent } from '../picture/picture-form/picture-form.component';
+import { PictureFormComponent } from '../forms/picture-form/picture-form.component';
+import { DetailProjectComponent } from './detail-project/detail-project.component';
 
 @NgModule({
   imports: [
@@ -20,6 +20,6 @@ import { PictureFormComponent } from '../picture/picture-form/picture-form.compo
     IonicModule,
     ProjectsPageRoutingModule
   ],
-  declarations: [ProjectsPage, DetailModalComponent, TaskFormComponent, ProjectFormComponent, SliderPictureComponent, PictureFormComponent]
+  declarations: [ProjectsPage, DetailProjectComponent, TaskFormComponent, ProjectFormComponent, SliderPictureComponent, PictureFormComponent]
 })
 export class ProjectsPageModule {}

@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/config/alert.service';
 import { ImageEditRequest } from 'src/app/models/image-edit-request';
 import { ImageRequest } from 'src/app/models/image-request';
 import { ImageResponse } from 'src/app/models/image-response';
-import { PictureService } from '../picture.service';
+import { PictureService } from '../../picture/picture.service';
 
 @Component({
   selector: 'app-picture-form',

@@ -9,16 +9,16 @@ import { ProjectApiService } from 'src/app/api/project-api.service';
 import { ProjectFormComponent } from 'src/app/forms/project-form/project-form/project-form.component';
 import { PictureService } from 'src/app/picture/picture.service';
 import { ImageResponse } from 'src/app/models/image-response';
-import { PictureFormComponent } from 'src/app/picture/picture-form/picture-form.component';
+import { PictureFormComponent } from 'src/app/forms/picture-form/picture-form.component';
 
 
 @Component({
-  selector: 'app-detail-modal',
-  templateUrl: './detail-modal.component.html',
-  styleUrls: ['./detail-modal.component.scss'],
+  selector: 'app-detail-project',
+  templateUrl: './detail-project.component.html',
+  styleUrls: ['./detail-project.component.scss'],
 })
 
-export class DetailModalComponent {
+export class DetailProjectComponent {
   @Input() project : ProjectResponse;
   public showProgressBar = false;
   // public pictureUrl = "https://qimg.onrender.com/api/images/5aa455ee-3672-4008-88cd-b7f37d9a6394.png";
@@ -38,20 +38,33 @@ export class DetailModalComponent {
   //   return this.modalCtrl.dismiss(this.name, 'confirm');
   // }
 
-  calculateMinutes(startDate: Date, endDate?: Date): Number {
-    const start = new Date(startDate);
-    let end = new Date(Date.now())
-    if ((endDate instanceof Date) && endDate) {
-      end = new Date(endDate);
-    }
-    const diffInMs = end.getTime() - start.getTime();
-    // console.log(diffInMs);
-    const diffInMinutes = Math.round(diffInMs / (1000 * 60));
-    return diffInMinutes;
-    
-    // console.log(`startDate: ${startDate.getTime()}, endDate: ${typeof(endDate)}`)
-    // return (endDate.getTime() - startDate.getTime()) / 1000 / 60;
-    // return 42;
+
+  calculateTime(tasks) {
+    let totalMinutes = 0;
+
+    tasks.forEach(task => {
+      totalMinutes += this.calculateMinutes(task);
+    });
+    return totalMinutes;
+  }
+
+  calculateMinutes(task) {
+    const startDate = new Date(task.startDate);
+      let now = new Date()
+      if(task.endDate) {
+        const now = new Date(task.endDate);
+      }
+      
+      const diffTime = Math.abs(now.getTime() - startDate.getTime());
+      const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+    return diffMinutes;
+  }
+
+  getHoursMinutesFromMin(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${hours}h${minutes < 10 ? '0' + minutes : minutes}min`;
   }
 
   async deleteTask(taskId: string) {
@@ -151,8 +164,7 @@ export class DetailModalComponent {
     }
   }
 
-  async editProject() {
-    // TODO: Terminer ça 
+  async editProject() { 
     const editProject = true;
     const modal = await this.modalCtrl.create({
       component: ProjectFormComponent,

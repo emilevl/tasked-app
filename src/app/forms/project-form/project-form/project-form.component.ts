@@ -10,7 +10,7 @@ import { ProjectResponse } from 'src/app/models/project-response';
 import { TaskEditRequest } from 'src/app/models/task-edit-request';
 import { TaskResponse } from 'src/app/models/task-response';
 import { UserResponse } from 'src/app/models/user-response';
-import { PictureFormComponent } from 'src/app/picture/picture-form/picture-form.component';
+import { PictureFormComponent } from 'src/app/forms/picture-form/picture-form.component';
 
 @Component({
   selector: 'app-project-form',

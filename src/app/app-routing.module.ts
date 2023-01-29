@@ -12,11 +12,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'detail-modal',
-    loadChildren: () => import('./components/detail-modal/detail-modal.module').then( m => m.DetailModalPageModule)
-  },
+  }
 ];
 
 @NgModule({

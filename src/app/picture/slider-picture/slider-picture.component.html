@@ -1,14 +1,6 @@
 <div class="ion-padding" slot="content">
-
-  <!-- TODO IF POSSIBLE: ADD NAVIGATION TO THE IMAGES -->
-    <!-- <ion-button size="small"  type="submit" color="primary" class="btnNext" (click)="next()">
-        <ion-icon slot="slot-icon" name="chevron-forward-outline"></ion-icon>
-      </ion-button>
-      <ion-button size="small" type="submit" color="primary" class="btnPrev" (click)="prev()">
-        <ion-icon slot="slot-icon" name="chevron-back-outline"></ion-icon>
-      </ion-button> -->
     <ion-item *ngIf="!picturesExisting || loading">
-      <ion-text *ngIf="!picturesExisting && !loading">There is no picture for this project</ion-text>
+      <ion-text *ngIf="!picturesExisting && !loading">Aucune image pour ce projet</ion-text>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-item>
     <ion-slides *ngIf="picturesExisting"  #slides pagination type="bullets" pager="true" class="ion-margin-top">

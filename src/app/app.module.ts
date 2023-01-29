@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ProjectsPage } from './projects/projects.page';
-import { DetailModalComponent } from './components/detail-modal/detail-modal.component';
+import { DetailProjectComponent } from './projects/detail-project/detail-project.component';
 
 @NgModule({
   declarations: [AppComponent],

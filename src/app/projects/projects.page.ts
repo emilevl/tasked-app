@@ -11,11 +11,10 @@ import { TaskResponse } from '../models/task-response';
 import { UserResponse } from '../models/user-response';
 import { NgForOf } from '@angular/common';
 import { ModalController } from '@ionic/angular';
-import { DetailModalPage } from '../components/detail-modal/detail-modal.page';
 import { Observable } from 'rxjs';
-import { DetailModalComponent } from '../components/detail-modal/detail-modal.component';
 import { TaskFormComponent } from '../forms/task-form/task-form.component';
 import { ProjectFormComponent } from '../forms/project-form/project-form/project-form.component';
+import { DetailProjectComponent } from './detail-project/detail-project.component';
 
 
 @Component({
@@ -28,6 +27,8 @@ export class ProjectsPage implements OnInit {
     projects: Array<ProjectResponse>;
     tasks ?: TaskResponse;
     message ?: string;
+    // displaySearchResult: boolean
+    projectsToShow: Array<ProjectResponse>
   constructor(
     // Inject the authentication provider.
     private auth: AuthService,
@@ -44,11 +45,13 @@ export class ProjectsPage implements OnInit {
   
   
 
-  ionViewWillEnter(): void {
-    // const projects = this.apiService.httpRequest("/projects", "GET")
-    // console.log(projects);
-    // this.projectApi.getAll().subscribe;
-  }
+  handleRefresh(event) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      this.getProjects();
+      event.target.complete();
+    }, 2000);
+  };
 
   ngOnInit() {
     this.getProjects(); 
@@ -62,7 +65,7 @@ export class ProjectsPage implements OnInit {
 
   async openProject(project : ProjectResponse) {
     const modal = await this.modalCtrl.create({
-      component: DetailModalComponent,
+      component: DetailProjectComponent,
       componentProps: {project: project}
     });
     // console.log(project);
@@ -97,12 +100,13 @@ export class ProjectsPage implements OnInit {
   getProjects() {
     this.projectApiService.getAllProjects().subscribe(
       (result) => {
-        console.log(result[0])
+        // console.log(result[0])
         // for (const project in result) {
         //   console.log(typeof(project))
         // }
         this.projects = result;
-        console.log(result);
+        this.projectsToShow = this.projects;
+        // console.log(result);
       },
       (err) => {
         console.warn('Could not access projects', err)
@@ -110,19 +114,44 @@ export class ProjectsPage implements OnInit {
     )
   }
 
-  calculateMinutes(startDate: Date, endDate?: Date): Number {
-    const start = new Date(startDate);
-    let end = new Date(Date.now())
-    if ((endDate instanceof Date) && endDate) {
-      end = new Date(endDate);
-    }
-    const diffInMs = end.getTime() - start.getTime();
-    // console.log(diffInMs);
-    const diffInMinutes = Math.round(diffInMs / (1000 * 60));
-    return diffInMinutes;
-    
-    // console.log(`startDate: ${startDate.getTime()}, endDate: ${typeof(endDate)}`)
-    // return (endDate.getTime() - startDate.getTime()) / 1000 / 60;
-    // return 42;
+  calculateTime(tasks) {
+    let totalMinutes = 0;
+
+    tasks.forEach(task => {
+      totalMinutes += this.calculateMinutes(task);
+    });
+    return totalMinutes;
+  }
+
+  calculateMinutes(task) {
+    const startDate = new Date(task.startDate);
+      let now = new Date()
+      if(task.endDate) {
+        const now = new Date(task.endDate);
+      }
+      
+      const diffTime = Math.abs(now.getTime() - startDate.getTime());
+      const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+    return diffMinutes;
+  }
+
+  getHoursMinutesFromMin(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${hours}h${minutes < 10 ? '0' + minutes : minutes}min`;
+  }
+
+  search(event) {
+    let searchText: string = event.detail.value;
+    this.projectsToShow = this.projects.filter((pr) =>
+      pr.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    // if (this.projectsSearch != '') {
+    //   this.displaySearchResult = true;
+    // } else {
+    //   this.displaySearchResult = false;
+    // }
   }
 }
