@@ -3,11 +3,11 @@ Voici l'application de gestion du temps ultime pour votre appareil mobile ! Avec
 
 # Caractéristiques
 
-    - Créez et gérez des projets, avec des tâches et des descriptions de tâches.
-    - Ajoutez des tâches en indiquant le timing
-    - Prenez et joignez des photos aux projets pour ajouter du contexte
-    - Affichez une liste de tous vos projets et passez facilement de l'un à l'autre.
-    - Gagnez du temps et augmentez votre productivité grâce à notre interface conviviale et à nos puissantes fonctionnalités de gestion des tâches.
+ - Créez et gérez des projets, avec des tâches et des descriptions de tâches.
+ - Ajoutez des tâches en indiquant le timing
+ - Prenez et joignez des photos aux projets pour ajouter du contexte
+ - Affichez une liste de tous vos projets et passez facilement de l'un à l'autre.
+ - Gagnez du temps et augmentez votre productivité grâce à notre interface conviviale et à nos puissantes fonctionnalités de gestion des tâches.
 
 Que vous soyez un professionnel occupé, un étudiant ou que vous cherchiez simplement à rester organisé, notre application est la solution parfaite pour tous vos besoins en matière de gestion du temps. Téléchargez maintenant et commencez à augmenter votre productivité dès aujourd'hui !
 
