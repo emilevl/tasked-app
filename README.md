@@ -84,7 +84,7 @@ Lorsque vous déroulez les images, vous pouvez les voir en accordéon. Il est po
 Ce projet a été développé dans le cadre d'un cours à l'HEIG-VD à Yverdon-les-Bains (CH). Il s'agit d'un projet fictif.
 
 ## Auteurs
-Emile Vianney-Liaud
-Sylvain Salgat
-Eliott Piaget
+- Emile Vianney-Liaud
+- Sylvain Salgat
+- Eliott Piaget
 
